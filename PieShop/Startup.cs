@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PieShop.Data;
+using PieShop.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,20 @@ namespace PieShop
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
-                Configuration.GetConnectionString("DefaultConnection")));
+               Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<IPieRepository, PieRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+
+            services.AddScoped<ShoppingCart>(sp => ShoppingCart.GetCart(sp));
+            services.AddScoped<IComment,CommentRepo>();
+
+            
+
+
+            services.AddHttpContextAccessor();
+            services.AddSession();
+            services.AddDistributedMemoryCache();
             services.AddControllersWithViews();
         }
 
@@ -44,7 +58,12 @@ namespace PieShop
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+            
+            
             app.UseStaticFiles();
+            app.UseSession();
+           
+
 
             app.UseRouting();
 

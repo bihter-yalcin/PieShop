@@ -1,0 +1,35 @@
+﻿
+@model PieShop.Models.Comment
+
+ 
+<!DOCTYPE html>
+<html>
+<head>
+    <meta="viewport" content="width-device-width" />
+</head>
+
+<body>
+    <h1 style="color: #a593c2">Add Comment to Our Delicious Pies</h1>
+
+    @using (Html.BeginForm("Add", "Comment", FormMethod.Post))
+    {
+
+        <table>
+            <tr>
+                <th style="color: #a593c2"> @Html.DisplayNameFor(model => model.PieId)</th>
+                <th style="color: #a593c2"> @Html.DropDownListFor(model => model.PieId, new SelectList(Model.PieCollection, "PieId", "Name"), "Select")</th>
+
+            </tr>
+            <tr>
+                <th style="color: #a593c2">@Html.DisplayNameFor(model => model.comment)</th>
+                <th style="color: #a593c2">@Html.EditorFor(model => model.comment)</th>
+
+            </tr>
+        </table>
+        <input type="submit" name="name" value="Submit" />
+
+
+    }
+</body>
+
+</html>

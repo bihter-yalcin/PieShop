@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PieShop.Data;
 
 namespace PieShop.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210331163305_addedComments")]
+    partial class addedComments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,7 +63,7 @@ namespace PieShop.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("PieId")
+                    b.Property<int?>("PieId")
                         .HasColumnType("int");
 
                     b.Property<string>("comment")
@@ -69,31 +71,9 @@ namespace PieShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Comments");
-                });
+                    b.HasIndex("PieId");
 
-            modelBuilder.Entity("PieShop.Models.Customer", b =>
-                {
-                    b.Property<int>("CustomerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CusName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CustomerId");
-
-                    b.ToTable("Customers");
+                    b.ToTable("Comment");
                 });
 
             modelBuilder.Entity("PieShop.Models.Pie", b =>
@@ -340,6 +320,13 @@ namespace PieShop.Migrations
                     b.ToTable("ShoppingCartItems");
                 });
 
+            modelBuilder.Entity("PieShop.Models.Comment", b =>
+                {
+                    b.HasOne("PieShop.Models.Pie", null)
+                        .WithMany("Comments")
+                        .HasForeignKey("PieId");
+                });
+
             modelBuilder.Entity("PieShop.Models.Pie", b =>
                 {
                     b.HasOne("PieShop.Models.Category", "Category")
@@ -363,6 +350,11 @@ namespace PieShop.Migrations
             modelBuilder.Entity("PieShop.Models.Category", b =>
                 {
                     b.Navigation("Pie");
+                });
+
+            modelBuilder.Entity("PieShop.Models.Pie", b =>
+                {
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

@@ -29,8 +29,7 @@ namespace PieShop.Models
 
         public Category Category{ get; set; }
 
-
-
+       
 
     }
 }
