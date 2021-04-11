@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PieShop.Data;
 using PieShop.Models;
+using PieShop.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,12 +27,25 @@ namespace PieShop.Controllers
         {
             return View();
         }
+       
+        
         public IActionResult a(int id)
-        {
-            IEnumerable<Comment> objList= _comment.Getcommentlistbyid(id);
             
+        {
 
-            return View(objList);
+            IEnumerable<Pie> pie  = from a in b.Pies
+                  where a.PieId == id
+                  select a;
+
+            var commentviewmodel = new CommentViewModel
+            {
+                Pies = pie,
+
+              Comments= _comment.Getcommentlistbyid(id)
+            };
+
+           
+            return View(commentviewmodel);
         }
 
         

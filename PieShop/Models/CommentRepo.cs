@@ -38,6 +38,9 @@ namespace PieShop.Models
             IEnumerable<Comment> objList = from comment in AllComments
                                            where comment.PieId == pieId
                                            select comment;
+            /*string t = (from a in AllPies
+                        where a.PieId == pieId
+                        select a.Name).FirstOrDefault();*/
                                            
             return objList;
         }

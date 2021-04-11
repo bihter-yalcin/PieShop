@@ -17,7 +17,7 @@ namespace PieShop.Models
        
         [DisplayName("Pie Name")]
         public int PieId { get; set; }
-
+      
         [NotMapped]
         public List<Pie> PieCollection { get; set; }
 
