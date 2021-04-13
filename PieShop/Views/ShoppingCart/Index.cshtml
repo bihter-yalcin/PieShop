@@ -13,28 +13,28 @@
     <tbody>
         @foreach (var line in Model.ShoppingCart.ShoppingCartItems)
         {
-        <tr>
-            <td class="text-center">@line.Amount</td>
-            <td class="text-left">@line.Pie.Name</td>
-            <td class="text-right">@line.Pie.Price.ToString("c")</td>
-            <td class="text-right">
-                @((line.Amount * line.Pie.Price).ToString("c"))
-            </td>
-            <td>
-                <a class="btn btn-primary"
-                   asp-controller="ShoppingCart"
-                   asp-action="RemoveFromShoppingCart"
-                   asp-route-pieId="@line.Pie.PieId">Delete</a>
-            </td>
+            <tr>
+                <td class="text-center">@line.Amount</td>
+                <td class="text-left">@line.Pie.Name</td>
+                <td class="text-right">@line.Pie.Price.ToString("c")</td>
+                <td class="text-right">
+                    @((line.Amount * line.Pie.Price).ToString("c"))
+                </td>
+                <td>
+                    <a class="btn btn-primary"
+                       asp-controller="ShoppingCart"
+                       asp-action="RemoveFromShoppingCart"
+                       asp-route-pieId="@line.Pie.PieId">Delete</a>
+                </td>
 
-            <td>
-                <a style="background-color: mediumvioletred !important; border: mediumvioletred
-" class="btn btn-primary"
-                   asp-controller="ShoppingCart"
-                   asp-action="AddToShoppingCart"
-                   asp-route-pieId="@line.Pie.PieId">Add One More</a>
-            </td>
-        </tr>
+                <td>
+                    <a style="background-color: mediumvioletred !important; border: mediumvioletred" class="btn btn-primary"
+
+                       asp-controller="ShoppingCart"
+                       asp-action="AddToShoppingCart"
+                       asp-route-pieId="@line.Pie.PieId">Add One More</a>
+                </td>
+            </tr>
         }
     </tbody>
     <tfoot>
@@ -43,7 +43,12 @@
             <td class="text-right">
                 @Model.ShoppingCartTotal.ToString("c")
             </td>
+
         </tr>
     </tfoot>
+
 </table>
 
+<a style=" background-color: cornflowerblue !important;
+        border: cornflowerblue "
+ class="btn btn-primary" asp-controller="Order" asp-action="Create" >COMPLETE ORDER</a>

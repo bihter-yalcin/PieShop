@@ -1,0 +1,66 @@
+﻿@{
+    Layout = null;
+}
+<link href="~/content/CommentListStyle.css" rel="stylesheet" />
+
+<style>
+    .button {
+        background-color: #a593c2;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+</style>
+
+<div class="timeline">
+    <div class="container left">
+        <div class="content">
+            <h2>Order</h2>
+            <p>You gave an order.</p>
+           
+            <img width="200" height="150" src="~/Images/food-delivery-girl-taking-order-internet-during-quarantine-order-process-concept-support-service-theme-cartoon-colored-flat-illustration_198695-8.jpg" />
+        </div>
+    </div>
+    <div class="container right">
+        <div class="content">
+            <h2>Receive</h2>
+            <p>We receive your order.</p>
+
+            <img width="200" height="150" src="~/Images/unnamed.png" />
+        </div>
+    </div>
+
+
+    <div class="container left">
+        <div class="content">
+            <h2>Preparing Pies</h2>
+            <p>We prepare your Pies after receive your order.</p>
+
+            <img width="200" height="150" src="~/Images/cartoon_thanksgiving_pie_postcard-r5d19b13a74974d91a4831b55b643e9d5_vgbaq_8byvr_704.jpg" />
+        </div>
+    </div>
+    <div class="container right">
+        <div class="content">
+            <h2>Enjoy</h2>
+            <p>The pies are on the way to reach you.</p>
+            <img width="200" height="150" src="~/Images/delivery-service-vector-illustration_132971-180.jpg" />
+
+        </div>
+    </div>
+
+
+    <a class="button"
+       asp-controller="Home"
+       asp-action="Index">Home</a>
+
+    <a class="button"
+       asp-controller="Home"
+       asp-action="Index">Have More Question?</a>
+
+</div>

@@ -35,7 +35,7 @@ namespace PieShop
             services.AddScoped<ShoppingCart>(sp => ShoppingCart.GetCart(sp));
             services.AddScoped<IComment,CommentRepo>();
 
-            
+            services.AddScoped<IOrderRepo,OrderRepo>();
 
 
             services.AddHttpContextAccessor();
