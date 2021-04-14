@@ -1,6 +1,8 @@
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +28,9 @@ namespace PieShop
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Her yere log in şartı koyar [AllowAnonymous] yazarak kurtulursun.
+           services.AddRazorPages().AddMvcOptions(o => o.Filters.Add(new AuthorizeFilter()));
+
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
                Configuration.GetConnectionString("DefaultConnection")));
 
@@ -36,12 +41,15 @@ namespace PieShop
             services.AddScoped<IComment,CommentRepo>();
 
             services.AddScoped<IOrderRepo,OrderRepo>();
-
+            services.AddScoped<CustomerRepo>();
 
             services.AddHttpContextAccessor();
             services.AddSession();
             services.AddDistributedMemoryCache();
             services.AddControllersWithViews();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(o=>o.LoginPath="/Customer/Login");
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,11 +69,14 @@ namespace PieShop
             
             
             app.UseStaticFiles();
+
+            //this is not exists on the example
             app.UseSession();
            
 
-
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

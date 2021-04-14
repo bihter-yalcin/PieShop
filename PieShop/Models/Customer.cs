@@ -17,6 +17,8 @@ namespace PieShop.Models
         [DisplayName("User Name")]
         public string UserName { get; set; }
         public string Password { get; set; }
+        public string Returnurl { get; set; }
 
+        public bool RememberLogin { get;  set; }
     }
 }

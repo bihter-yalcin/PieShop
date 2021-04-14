@@ -1,47 +1,29 @@
 ﻿
-@model PieShop.Models.Customer
+@model Customer
+<form asp-route="Login">
+    <input type="hidden" asp-for="Returnurl" />
 
-@{
-    ViewBag.Title = "Login";
-}
+    <div class=" form-group">
+        <label asp-for="UserName"></label>
+        <input class="form-control" placeholder="UserName" asp-for="UserName" autofocus />
+    </div>
 
-@using (Html.BeginForm("Login", "Customer", FormMethod.Post))
-{
-    <fieldset>
-        <legend>Customer LogIn</legend>
+    <div class=" form-group">
+        <label asp-for="Password"></label>
+        <input class="form-control" placeholder="Password" asp-for="Password" autofocus />
+    </div>
 
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true)
-        @if (@ViewBag.Message != null)
-        {
-            <div style="border: 1px solid red">
-                @ViewBag.Message
-            </div>
-        }
-        <table>
-            <tr>
-                <td>@Html.LabelFor(a => a.UserName)</td>
-                <td>@Html.TextBoxFor(a => a.UserName)</td>
-                <td>@Html.ValidationMessageFor(a => a.UserName)</td>
-            </tr>
-            <tr>
-                <td>
-                    @Html.LabelFor(a => a.Password)
-                </td>
-                <td>
-                    @Html.PasswordFor(a => a.Password)
-                </td>
-                <td>
-                    @Html.ValidationMessageFor(a => a.Password)
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>
-                    <input type="submit" value="Login" />
-                </td>
-                <td></td>
-            </tr>
-        </table>
-    </fieldset>
-}  
+    <div class="form-group login-remember" >
+        <label asp-for="RememberLogin">
+            <input asp-for="RememberLogin" />
+            <strong>Remember Me</strong>
+
+        </label>
+    </div>
+    
+    <div class="form-group">
+        <button class="btn btn-primary">Login</button>
+    </div>
+
+
+</form>

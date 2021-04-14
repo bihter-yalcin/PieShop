@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Session;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,6 +9,7 @@ using PieShop.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace PieShop.Controllers
@@ -14,58 +17,57 @@ namespace PieShop.Controllers
     public class CustomerController : Controller
     {
 
-
-
         private readonly ApplicationDbContext _db;
         ISession session;
+        private readonly CustomerRepo _cusrepo;
 
-
-        public CustomerController(ApplicationDbContext db, IServiceProvider services)
+        public CustomerController(ApplicationDbContext db, IServiceProvider services,CustomerRepo cusrepo)
         {
             _db = db;
-
+            _cusrepo = cusrepo;
             session = services.GetRequiredService<IHttpContextAccessor>()?
                 .HttpContext.Session;
         }
-        public ActionResult Login()
-        {
-            return View();
-        }
+       
+        
 
+        //return url. This method captures url that user came from
+        public IActionResult Login(string returnUrl="/")
+        {
+
+            return View(new Customer { Returnurl = returnUrl }); 
+         
+           
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public ActionResult Login(Customer objCustomer)
-        {       
+        public async Task<IActionResult> Login(Customer model)
+        {
+            var user = _cusrepo.GetByUsernameAndPassword(model.UserName, model.Password);
+
+            if (user == null)
+                return Unauthorized();
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier,user.CustomerId.ToString()),
+                new Claim(ClaimTypes.Name,user.CusName)
                 
-             
-            if (ModelState.IsValid)
-            {   
-                var obj =
-               _db.Customers.Where(a => a.UserName.Equals(objCustomer.UserName) && a.Password.Equals(objCustomer.Password))
-               .FirstOrDefault();
+
+            };
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme, principal,
+                new AuthenticationProperties { IsPersistent = model.RememberLogin });
+            return LocalRedirect(model.Returnurl);
 
 
-               
-
-                if (obj != null)
-                { var a = obj.CustomerId.ToString();
-                var b = obj.CusName.ToString();
-                    HttpContext.Session.SetString("CustomerId", a);
-                    HttpContext.Session.SetString("UserName", b);
-                    return RedirectToAction("UserDashBoard");
-                   
-                }
-
-
-
-            }
-           
-             return View(objCustomer);
-           
         }
-
 
 
         public ActionResult UserDashBoard()
