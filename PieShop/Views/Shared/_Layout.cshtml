@@ -42,6 +42,8 @@
                         <li><a asp-controller="Pie" asp-action="List">Pie</a></li>
                         <li><a asp-controller="Requests" asp-action="Create">Your Pie Requests</a></li>
                         <li><a asp-controller="Comment" asp-action="Add">Add Comment</a></li>
+                        <partial name="_LoginPartial" />
+
 
                     </ul>
                     @if (Context.Session.GetString("UserName") != null)
@@ -63,5 +65,6 @@
             </div>
         </div>
     </div>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

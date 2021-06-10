@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PieShop.Models;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace PieShop.Controllers
 {
+    [Authorize]
     public class OrderController : Controller
     {
         private readonly IOrderRepo _orderRepo;
